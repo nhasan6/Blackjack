@@ -3,11 +3,11 @@ class Card:
     def __init__(self, suit, rank): 
         self._suit = suit # string
         self._rank = rank # string 
-        self._face_up = True # boolean 
+        self._face_up = False # boolean 
 
     def __str__(self):
         if self._face_up:
-            return f"{self._rank} of {self._suit}"
+            return f"{self._rank} of {self._suit}" # temporary string display
         else:
             return "Face Down"
         
@@ -29,13 +29,7 @@ class Card:
     def get_state(self): # Unsure if this is necessary 
         return self._face_up
 
-        # might be good for a count hand function
-        # if isinstance(self.rank, int):
-        #     self.value = rank # 2 - 19
-        # else:
-        # use Q, K, J, A no need for words
-        # create a function that calculates hand value. 
-        #     if self.rank.upper() == "" or self.rank.upper() == "JACK" or self.rank.upper()
+
 
 # class Main:
 #     test = Card("Spades", 2)
