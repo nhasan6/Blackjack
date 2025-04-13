@@ -3,7 +3,7 @@ class Card:
     def __init__(self, suit, rank): 
         self._suit = suit # string
         self._rank = rank # string 
-        self._face_up = False # boolean 
+        self._face_up = True # boolean 
 
     def __str__(self):
         if self._face_up:
@@ -11,6 +11,9 @@ class Card:
         else:
             return "Face Down"
         
+    def __repr__(self):
+        return self.__str__() # calls the to-string function if a list of card objects are printed
+    
     def reveal_card(self):
         self._face_up = True
     
@@ -34,10 +37,10 @@ class Card:
         # create a function that calculates hand value. 
         #     if self.rank.upper() == "" or self.rank.upper() == "JACK" or self.rank.upper()
 
-class Main:
-    test = Card("Spades", 2)
-    other_test = Card("Diamonds", "J")
-    other_test.reveal_card()
-    print(other_test)
-    print(test)
+# class Main:
+#     test = Card("Spades", 2)
+#     other_test = Card("Diamonds", "J")
+#     other_test.reveal_card()
+#     print(other_test)
+#     print(test)
             
