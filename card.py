@@ -26,6 +26,7 @@ class Card:
     def get_state(self): # Unsure if this is necessary 
         return self._face_up
 
+        # might be good for a count hand function
         # if isinstance(self.rank, int):
         #     self.value = rank # 2 - 19
         # else:
