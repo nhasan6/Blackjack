@@ -22,6 +22,7 @@ class Deck:
         for suit in Deck._SUITS: # repopulates the deck 
             for rank in Deck._RANKS:
                 self._cards.append(Card(suit,rank))
+        self.shuffle()
     
     def deal_card(self):
         if len(self._cards) > 0: # checks if the deck still has cards 
@@ -30,7 +31,4 @@ class Deck:
             return card # returns the card obj, which can then be drawn by a player/the dealer
         else:
             print("There are no cards left in the deck")
-            return None 
-
-#probably need an out of bounds counter somewhere
-        
+            return None         

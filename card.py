@@ -28,13 +28,3 @@ class Card:
 
     def get_state(self): # Unsure if this is necessary 
         return self._face_up
-
-
-
-# class Main:
-#     test = Card("Spades", 2)
-#     other_test = Card("Diamonds", "J")
-#     other_test.reveal_card()
-#     print(other_test)
-#     print(test)
-            
