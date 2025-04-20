@@ -3,7 +3,6 @@ from button import Button
 from src.card import Card
 from src.deck import Deck
 from src.player import Player, Dealer
-from src.game import Game 
 
 def illustrate_card(card, x, y):
     card_surf = pygame.Surface((150,200)) # size of cards
@@ -19,20 +18,25 @@ def illustrate_card(card, x, y):
         text_rect = text_surf.get_frect(center = ((x - 10,y+40))) # put text slightly below the top
         screen.blit(text_surf, text_rect) 
 
-
 def illustrate_hand(player, x, y):
         for card in player.get_hand():
             illustrate_card(card, x, y)
             x += 120 # horizontally stagger the cards
 
 def get_round_result(player):
-        if player.is_blackjack() and blackjack.get_dealer().is_blackjack() or player.is_bust() and blackjack.get_dealer().is_bust() or player.count_hand() == blackjack.get_dealer().count_hand():
+        if player.is_blackjack() and dealer.is_blackjack() or player.is_bust() and dealer.is_bust() or player.count_hand() == dealer.count_hand():
             return game_font.render("TIE", True, "Black")
-        elif player.is_blackjack() or blackjack.get_dealer().is_bust() or (not player.is_bust() and player.count_hand() > blackjack.get_dealer().count_hand()):
+        elif player.is_blackjack() or dealer.is_bust() or (not player.is_bust() and player.count_hand() > dealer.count_hand()):
             player.record_win()
             return game_font.render("WIN", True, "Black")
         else:
             return game_font.render("LOSE", True, "Black")
+        
+def enroll_players():
+    # needs to take input eventually, for the time being, it's hardcoded as 1
+    num_players = 1
+    for i in range(1, num_players+1):
+        players.append(Player(f"Player {i}"))
 
 # general setup
 pygame.init()
@@ -41,16 +45,52 @@ screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption("Blackjack")
 game_font = pygame.font.Font(None, 20)
 title_font = pygame.font.Font("./assets/titlefont.ttf", 180)
+
+
 running = True # pygame main loop (kills the game when false)
-game_active = False # whether a game is currently being played
+game_active = False # whether a game is currently being played (goes to the game-over screen otherwise)
 cards_dealt = False
-round_active = True
 turn_tracker = 0
-rounds = 0
 
 # Intialize Game Assets
-blackjack = Game()
-blackjack.start_game()
+dealer = Dealer("Dealer") # dealer's hand
+players = [] # list of Players
+deck = Deck() 
+rounds = 0 # number of rounds played
+enroll_players() 
+
+
+#game-loop
+# start_game()
+# rounds +=1 
+# new_round()
+# play_round()
+# choice() --> this feeds into whether game_active
+
+
+def deal_initial_cards():
+    # deal first card
+        for player in players: 
+            player.draw_card(deck.deal_card())
+        
+        dealer.draw_card(deck.deal_card()) # dealer's first card is shown
+
+        # deal second card
+        for player in players:
+            player.draw_card(deck.deal_card())
+
+        dealer.draw_hidden_card(deck.deal_card()) # dealer's second card is hidden
+
+def reset_round():
+    for player in players:
+        player.reset_hand()
+    dealer.reset_hand()
+    deck.reset_deck()
+
+def dealer_turn():
+    dealer.get_hand()[1].reveal_card() # reveal dealer's second card
+    while dealer.count_hand() < 16:
+        dealer.draw_card(deck.deal_card())
 
 # Create buttons
 hit_bttn = Button("Hit",(179,133,182), "black", (250, SCREEN_HEIGHT * 3/4))
@@ -81,40 +121,40 @@ while running:
         # while a game is currently active/being played
         elif game_active:
 
-            if round_active:
-                if turn_tracker < len(blackjack.get_players()):
-                    if blackjack.get_players()[turn_tracker].count_hand() < 21:
-                        if hit_bttn.check_click():
-                            blackjack.get_players()[turn_tracker].draw_card(blackjack.get_deck().deal_card())
-                        if stay_bttn.check_click():
-                            turn_tracker += 1
-                    else:
-                        turn_tracker +=1
-                
+            if turn_tracker < len(players):
+                if players[turn_tracker].count_hand() < 21:
+                    if hit_bttn.check_click():
+                        players[turn_tracker].draw_card(deck.deal_card())
+                    if stay_bttn.check_click():
+                        turn_tracker += 1
                 else:
-                    blackjack.dealer_turn()
-                    for player in blackjack.get_players():
-                        result_surf = get_round_result(player)
-                        result_rect = result_surf.get_frect(center = (SCREEN_WIDTH/2, 470))
-                        round_active = False
+                    turn_tracker +=1
+                
+            elif turn_tracker == len(players):
+                dealer_turn()
+                for player in players:
+                    result_surf = get_round_result(player)
+                    result_rect = result_surf.get_frect(center = (SCREEN_WIDTH/2, 470))
+                turn_tracker += 1
+            
+            else:
+                game_active = False
+                        
 
         else:
-            # Pygame window is active, but a game is over. If a player wants to continue to thge next round, press space. # this actually doesn't work!!!!
+            # Pygame window is active, but a game is over. If a player wants to continue to thge next round, press space. 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                game_active = True
-                blackjack.new_round()
+                reset_round()
                 cards_dealt = False
-                turn_tracker = 0
-                round_active = True
-                
+                turn_tracker = 0    
+                game_active = True
+                print(rounds)
                 # this is where any reset round things occur 
 
     # draw the game
 
     if not game_active:
-        if rounds > 0:
-            pass
-        else:
+        if rounds == 0:
             screen.fill((29,127,124))
             title = title_font.render("BLACKJACK", True, "black")
             title_rect = title.get_frect(center = (SCREEN_WIDTH/2,SCREEN_HEIGHT/2))
@@ -131,21 +171,21 @@ while running:
         screen.blit(player_mat_label, player_mat_label_rect)
 
         if not cards_dealt:
-            blackjack.deal_initial_cards()
-            cards_dealt = True
             rounds += 1
+            deal_initial_cards()
+            cards_dealt = True
 
         # Buttons 
         hit_bttn.draw(screen)
         stay_bttn.draw(screen)
 
         # Display each players hand every time 
-        illustrate_hand(blackjack.get_dealer(), SCREEN_WIDTH/2, 60)
+        illustrate_hand(dealer, SCREEN_WIDTH/2, 60)
 
-        for player in blackjack.get_players():
+        for player in players:
                 illustrate_hand(player, SCREEN_WIDTH/2, 470)
-
-        if not round_active:
+        
+        if turn_tracker > len(players):
             screen.blit(result_surf, result_rect)
 
     pygame.display.flip()
