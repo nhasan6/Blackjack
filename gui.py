@@ -1,5 +1,10 @@
 import pygame
-
+from button import Button
+from src.card import Card
+from src.deck import Deck
+from src.player import Player, Dealer
+from src.game import Game
+            
 # general setup
 pygame.init()
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
@@ -9,6 +14,9 @@ game_font = pygame.font.Font(None, 20)
 title_font = pygame.font.Font("./assets/titlefont.ttf", 40)
 running = True
 
+# Create buttons
+hit_bttn = Button("Hit",(179,133,182), "black", (250, SCREEN_HEIGHT * 3/4))
+stay_bttn = Button("Stay",(179,133,182), "black", (SCREEN_WIDTH - 250, SCREEN_HEIGHT * 3/4))
 
 # Dealer and player card "placemats"
 dealer_mat = pygame.Surface((175,250))
@@ -21,25 +29,7 @@ player_mat = pygame.Surface((175,250))
 player_mat.fill((207,118,74))
 player_mat_rect = player_mat.get_frect(midtop = (SCREEN_WIDTH/2, 440))
 player_mat_label = game_font.render("Player1", True, "Black")
-player_mat_label_rect = dealer_mat_label.get_frect(midtop = (SCREEN_WIDTH/2, 450))
-
-# Buttons --> there should probably be a way to turn this into a class/obj
-
-hit_bttn = pygame.Surface((175, 80))
-hit_bttn.fill((179,133,182))
-hit_bttn_rect = hit_bttn.get_frect(center = (250, SCREEN_HEIGHT * 2/3))
-
-stay_bttn = pygame.Surface((175, 80))
-stay_bttn.fill((179,133,182))
-stay_bttn_rect = hit_bttn.get_frect(midright = (SCREEN_WIDTH-250, SCREEN_HEIGHT * 2/3))
-
-# Fonts
-stay_bttn_label = game_font.render("Stay", True, "black")
-stay_bttn_label_rect = stay_bttn_label.get_rect(center = stay_bttn_rect.center)
-
-hit_bttn_label = game_font.render("Hit", True, "black")
-hit_bttn_label_rect = stay_bttn_label.get_rect(center = hit_bttn_rect.center)
-
+player_mat_label_rect = player_mat_label.get_frect(midtop = (SCREEN_WIDTH/2, 450))
 
 while running:
 
@@ -50,31 +40,21 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-
     # draw the game
 
     # fills the screen with a background colour
     screen.fill((29,127,124))
 
-
-    # test blits for buttons/surfaces
+    # Draws mat surfaces
     screen.blit(dealer_mat, dealer_mat_rect)
     screen.blit(dealer_mat_label, dealer_mat_label_rect)
 
     screen.blit(player_mat, player_mat_rect)
     screen.blit(player_mat_label, player_mat_label_rect)
 
-
-    screen.blit(hit_bttn, hit_bttn_rect)
-    screen.blit(hit_bttn_label, hit_bttn_label_rect)
-
-
-    screen.blit(stay_bttn, stay_bttn_rect)
-    screen.blit(stay_bttn_label, stay_bttn_label_rect)
-
-
-
-                                                                                                                                                                                                                                               
+    # Buttons 
+    hit_bttn.draw(screen)
+    stay_bttn.draw(screen)
 
     pygame.display.flip()
 

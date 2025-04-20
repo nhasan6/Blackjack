@@ -21,7 +21,7 @@ class Card:
         self._face_up = False
 
     def get_suit(self):
-        return self._suite
+        return self._suit
 
     def get_rank(self):
         return self._rank
