@@ -69,9 +69,9 @@ def illustrate_wins(player, x,y):
 
 def get_round_result(player):
    # determines the outcome of the round for an individual player and returns a text surface with the outcome
-   if player.is_blackjack() and dealer.is_blackjack() or player.is_bust() and dealer.is_bust() or player.count_hand() == dealer.count_hand():
+   if (player.is_blackjack() and dealer.is_blackjack()) or (player.is_bust() and dealer.is_bust()) or (player.count_hand() == dealer.count_hand()):
        return RESULT_FONT.render("TIE", True, "Black")
-   elif player.is_blackjack() or dealer.is_bust() or (not player.is_bust() and player.count_hand() > dealer.count_hand()):
+   elif (player.is_blackjack() or dealer.is_bust()) or ((not player.is_bust() and (player.count_hand() > dealer.count_hand()))):
        player.record_win()
        return RESULT_FONT.render("WIN", True, "Black")
    else:
@@ -163,6 +163,8 @@ while running:
                if players[turn_tracker].count_hand() < 21:
                    if hit_bttn.check_click() and cards_dealt:
                        players[turn_tracker].draw_card(deck.deal_card())
+                       if players[turn_tracker].count_hand() >= 21: # check this for multi-player
+                        turn_tracker += 1 
                    elif stay_bttn.check_click() and cards_dealt:
                        turn_tracker += 1
                # if bust or a natural blackjack, the turn is over
@@ -274,7 +276,7 @@ while running:
 
 
    pygame.display.flip()
-   clock.tick(100)
+   clock.tick(150)
 
 
 pygame.quit()
