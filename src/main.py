@@ -1,8 +1,8 @@
 import pygame
 from button import Button
-from src.card import Card
-from src.deck import Deck
-from src.player import Player, Dealer
+from card import Card
+from deck import Deck
+from player import Player, Dealer
 
 def deal_initial_cards(players, dealer, deck):     
     # deal first card
@@ -179,6 +179,11 @@ while running:
             title = TITLE_FONT.render("BLACKJACK", True, "black")
             title_rect = title.get_frect(center = (SCREEN_WIDTH/2,SCREEN_HEIGHT/2))
             screen.blit(title, title_rect)
+
+            caption = REG_FONT.render("Press SPACE to start", True, "black")
+            caption_rect = caption.get_frect(center = (SCREEN_WIDTH/2,title_rect.bottom))
+            screen.blit(caption, caption_rect)
+
     else:
         # these drawings occur every loop of the iteration so that they remain on the screen throughout the game
 
@@ -231,6 +236,6 @@ while running:
         screen.blit(round_surf, round_rect)
 
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(100)
 
 pygame.quit()
