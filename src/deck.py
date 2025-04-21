@@ -1,8 +1,8 @@
-from card import Card
+from src.card import Card
 import random
 
 class Deck:
-    _SUITS = ["SPADES", "HEARTS","DIAMONDS", "CLUBS"]
+    _SUITS = ["S", "H","D", "C"]
     _RANKS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"] 
 
     # constructor
@@ -31,4 +31,8 @@ class Deck:
             return card # returns the card obj, which can then be drawn by a player/the dealer
         else:
             print("There are no cards left in the deck")
-            return None         
+            return None 
+    
+    def get_length(self):
+        return len(self._cards)
+

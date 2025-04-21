@@ -1,7 +1,7 @@
-from card import Card
-from deck import Deck
-from player import Player, Dealer
-from game import Game
+from src.card import Card
+from src.deck import Deck
+from src.player import Player, Dealer
+from src.game import Game
 
 def main():
     blackjack = Game()

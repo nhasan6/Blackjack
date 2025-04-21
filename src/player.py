@@ -1,4 +1,4 @@
-from deck import Deck
+from src.deck import Deck
 
 class Player:
 
@@ -7,7 +7,6 @@ class Player:
         self._hand = []
         self._name = name # string 
         self._wins = 0 # num wins
-        # self._bet = 
 
     def draw_card(self, card):
         if card != None:
@@ -50,6 +49,9 @@ class Player:
     
     def record_win(self):
         self._wins += 1
+    
+    def get_wins(self):
+        return self._wins 
 
 class Dealer(Player):
     def __init__(self, name):
