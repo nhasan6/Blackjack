@@ -14,6 +14,6 @@ pip3 install pygame-ce
 
 ## Controls
 
-Click on HIT to draw another card
-Click on STAY to draw no more cards (ends your turn early)
+Click on HIT to draw another card.
+Click on STAY to draw no more cards (ends your turn early).
 
