@@ -13,7 +13,7 @@ class Button:
         self._enabled = True
 
         # create surfaces
-        self._bttn_surf = pygame.Surface((175, 80))
+        self._bttn_surf = pygame.Surface((140, 80))
         self._bttn_surf.fill(bttn_colour)
         self._bttn_rect = self._bttn_surf.get_frect(center = self._center)
 
