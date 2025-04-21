@@ -44,7 +44,7 @@ def illustrate_card(card, x, y):
 def illustrate_hand(player, x, y):
         for card in player.get_hand():
             illustrate_card(card, x, y)
-            x += 40 # horizontally stagger the cards
+            x += 30 # horizontally stagger the cards
 
 def get_round_result(player):
         if player.is_blackjack() and dealer.is_blackjack() or player.is_bust() and dealer.is_bust() or player.count_hand() == dealer.count_hand():

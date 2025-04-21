@@ -7,7 +7,7 @@ class Card:
 
     def __str__(self):
         if self._face_up:
-            return f"{self._rank}{self._suit}" # temporary string display
+            return f"{self._rank} of {self._suit}" # temporary string display
         else:
             return "Face Down"
         
