@@ -1,8 +1,8 @@
-from src.card import Card
-from src.deck import Deck
-from src.player import Player, Dealer
-import pygame 
-pygame.init()
+"""Game Class is only used in the command line version of Blackjack. Not part of the final pygame project."""
+
+from card import Card
+from deck import Deck
+from player import Player, Dealer
 
 class Game:
     def __init__(self):
@@ -28,36 +28,36 @@ class Game:
             print(f"Round # {self._rounds}")
             self.new_round()
             self.play_round()
-            choice = False
+            choice = "" == input("Press enter to play another round, anything else to quit: ")
             print() # spacing
             self._game_active = choice
         print("Thanks for playing!")
 
-    # def start_game(self):
-    #     num_players = int(input("Please enter the number of players (1 - #) who would like to play: "))
-    #     for i in range(1, num_players+1):
-    #         self._players.append(Player(input(f"Player {i}, please enter your name: ")))
-    #     print(f"{num_players} players have been successfully added to the game!")
-    #     print()
-
     def start_game(self):
-        num_players = 1
+        num_players = int(input("Please enter the number of players (1 - #) who would like to play: "))
         for i in range(1, num_players+1):
-            self._players.append(Player(f"Player {i}"))
-        print(f"{num_players} players have been successfully added to the game!")    
+            self._players.append(Player(input(f"Player {i}, please enter your name: ")))
+        print(f"{num_players} players have been successfully added to the game!")
+        print()
 
     def deal_initial_cards(self):
         # deal first card
         for player in self._players: 
             player.draw_card(self._deck.deal_card())
+            print(f"{player.get_name()}'s Hand: {player.get_hand()}")
         
         self._dealer.draw_card(self._deck.deal_card()) # dealer's first card is shown
+        print(f"Dealer's Hand: {self._dealer.get_hand()}")
+        print() # terminal spacing
 
         # deal second card
         for player in self._players:
             player.draw_card(self._deck.deal_card())
+            print(f"{player.get_name()}'s Hand: {player.get_hand()}")
 
         self._dealer.draw_hidden_card(self._deck.deal_card()) # dealer's second card is hidden
+        print(f"Dealer's Hand: {self._dealer.get_hand()}")
+        print() # terminal spacing
 
     def new_round(self): # alt, reset round
         for player in self._players:
@@ -83,9 +83,12 @@ class Game:
         print() # terminal spacing btwn the next player's turn
 
     def dealer_turn(self):
+        print("Dealer's Turn")
         self._dealer.get_hand()[1].reveal_card() # reveal dealer's second card
+        print(self._dealer.get_hand())
         while self._dealer.count_hand() < 16:
             self._dealer.draw_card(self._deck.deal_card())
+            print(self._dealer.get_hand())
 
     def play_round(self):
         self.deal_initial_cards()
@@ -103,4 +106,3 @@ class Game:
             player.record_win()
         else:
             print(f"{player.get_name()}'s result: Sorry, you lost :(")
-
