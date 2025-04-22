@@ -64,7 +64,7 @@ python -m Blackjack.main
 ![Screenshot 2025-04-21 at 9 53 28 PM](https://github.com/user-attachments/assets/4de20017-9a4b-44cd-9ec3-76dfbaef6fa2)
 
 ## Future Development
-- Receive user input like the number of players and the player names in the GUI
+- Receive user input like the number of players and the players' names in the GUI
+- Improve the GUI through better graphics, a visual indication of which player's turn it is, and more aesthetic round and win counters
 - Implement the addition of AI players, aside from the dealer
-- Improve the GUI's graphics and display of round and win counters
 - Implement an AI card counting feature
