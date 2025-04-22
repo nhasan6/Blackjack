@@ -78,7 +78,7 @@ def get_round_result(player):
        return RESULT_FONT.render("LOSE", True, "Black")
       
 def enroll_players():
-   num_players = int(input("How many players (1-3): "))
+   num_players = int(input("Please enter the number of players (1-3): "))
    for i in range(1, num_players+1):
        players.append(Player(f"Player {i}"))
 
@@ -115,9 +115,8 @@ players_enrolled = False
 
 
 # Create buttons
-hit_bttn = Button("Hit",(179,133,182), "black", (250, SCREEN_HEIGHT * 3/4))
-stay_bttn = Button("Stay",(179,133,182), "black", (SCREEN_WIDTH - 250, SCREEN_HEIGHT * 3/4))
-
+hit_bttn = Button("Hit",(179,133,182), "black", (250, SCREEN_HEIGHT * 1/3))
+stay_bttn = Button("Stay",(179,133,182), "black", (SCREEN_WIDTH - 250, SCREEN_HEIGHT * 1/3))
 
 # Dealer and player card "mats"
 MAT_WIDTH, MAT_HEIGHT = 175, 250
@@ -183,7 +182,7 @@ while running:
                # generates the result for each player and stores the surfaces to be displayed in a list
                for i in range(len(players)):
                    result_surf = get_round_result(players[i])
-                   result_rect = result_surf.get_frect(center = (SCREEN_WIDTH/(i + 2), get_mat(i)[1].centery))
+                   result_rect = result_surf.get_frect(center = (get_mat(i)[1].centerx, get_mat(i)[1].centery))
                    results.append((result_surf, result_rect))
                turn_tracker += 1
            else:
