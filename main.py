@@ -14,12 +14,10 @@ def deal_initial_cards(players, dealer, deck):
        player.draw_card(deck.deal_card())
    dealer.draw_card(deck.deal_card()) # dealer's first card is shown
 
-
    # deal second card
    for player in players:
        player.draw_card(deck.deal_card())
    dealer.draw_hidden_card(deck.deal_card()) # dealer's second card is hidden
-
 
 def reset_round(players, dealer, deck, results):
    for player in players:
@@ -28,12 +26,10 @@ def reset_round(players, dealer, deck, results):
    deck.reset_deck()  # replenishes and shuffles the deck
    results.clear() # clears the rounds results
 
-
 def dealer_turn():
    dealer.get_hand()[1].reveal_card() # reveal dealer's second card
    while dealer.count_hand() < 16 and deck.get_length() > 0: # dealer must keep drawing cards until their total is >=16 and there are still cards left in the draw pile
        dealer.draw_card(deck.deal_card())
-
 
 def illustrate_card(card, x, y):
    # displays a playing card on the screen
@@ -45,13 +41,11 @@ def illustrate_card(card, x, y):
    card_rect = card_surf.get_frect(topleft = (x, y))
    screen.blit(card_surf, card_rect)
 
-
 def illustrate_hand(player, x, y):
    # displays all the cards in a player/dealer's hand on the screen
    for card in player.get_hand():
        illustrate_card(card, x, y)
        x += 30 # spaces out the cards horizontally
-
 
 def illustrate_total(player, x, y):
    # displays the total value of a hand of cards on the screen
@@ -59,13 +53,11 @@ def illustrate_total(player, x, y):
    total_rect = total_surf.get_frect(midleft = (x,y))
    screen.blit(total_surf, total_rect)
 
-
 def illustrate_wins(player, x,y):
    # displays the a players win count on the screen
    wins_surf = REG_FONT.render(f"Wins: {player.get_wins()}", True, "Black")
    wins_rect = wins_surf.get_frect(midtop = (x,y))
    screen.blit(wins_surf, wins_rect)
-
 
 def get_round_result(player):
    # determines the outcome of the round for an individual player and returns a text surface with the outcome
@@ -82,7 +74,6 @@ def enroll_players():
    for i in range(1, num_players+1):
        players.append(Player(f"Player {i}"))
 
-
 # general pygame setup
 pygame.init()
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
@@ -90,20 +81,17 @@ screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption("Blackjack")
 clock = pygame.time.Clock()
 
-
 # load fonts
 REG_FONT = pygame.font.Font(None, 20)
 FONT_PATH = os.path.join(BASE_DIR, "assets", "titlefont.ttf")
 TITLE_FONT = pygame.font.Font(FONT_PATH, 180)
 RESULT_FONT = pygame.font.Font(FONT_PATH, 70)
 
-
 # intialize blackjack objects
 dealer = Dealer("Dealer") # dealer's hand
 players = [] # list of players
 deck = Deck()
 results = [] # list of tuples with result surfaces and rects, to be displayed on the screen at the end of each round
-
 
 # game-control variables
 running = True # controls main pygame loop (kills the screen when false)
@@ -112,7 +100,6 @@ turn_tracker = 0 # tracks which players turn it is
 rounds = 0 # number of rounds played
 cards_dealt = False
 players_enrolled = False
-
 
 # Create buttons
 hit_bttn = Button("Hit",(179,133,182), "black", (250, SCREEN_HEIGHT * 1/3))
@@ -126,7 +113,6 @@ dealer_mat_rect = dealer_mat.get_frect(midtop = (SCREEN_WIDTH/2, 30))
 dealer_mat_label = REG_FONT.render("Dealer", True, "Black")
 dealer_mat_label_rect = dealer_mat_label.get_frect(midtop = (SCREEN_WIDTH/2, 40))
 
-
 def get_mat(index):
    player_mat = pygame.Surface((MAT_WIDTH,MAT_HEIGHT))
    player_mat.fill((207,118,74))
@@ -134,7 +120,6 @@ def get_mat(index):
    top_left_x = gap * (index + 1) + (index * 175)
    player_mat_rect = player_mat.get_frect(topleft = (top_left_x, 440))
    return [player_mat, player_mat_rect]
-
 
 def draw_mat(players, index):
    screen.blit(get_mat(index)[0],get_mat(index)[1])
@@ -146,13 +131,10 @@ def draw_mat(players, index):
    player_mat_label_rect = player_mat_label.get_frect(midtop = (get_mat(index)[1].centerx, 450))
    screen.blit(player_mat_label, player_mat_label_rect)
 
-
 while running:
-
 
    # event loop
    for event in pygame.event.get():
-
 
        # exit the game if the user clicks the red "X"
        if event.type == pygame.QUIT:
@@ -160,7 +142,6 @@ while running:
       
        # while a game is currently active/being played
        elif game_active:
-
 
            # handles player turns
            if turn_tracker < len(players):
@@ -203,7 +184,6 @@ while running:
                turn_tracker = 0
                game_active = True
 
-
    # draw the game to the screen
    if not game_active:
        # title screen
@@ -213,29 +193,23 @@ while running:
            title_rect = title.get_frect(center = (SCREEN_WIDTH/2,SCREEN_HEIGHT/2))
            screen.blit(title, title_rect)
 
-
            caption = REG_FONT.render("Press SPACE to start", True, "black")
            caption_rect = caption.get_frect(center = (SCREEN_WIDTH/2,title_rect.bottom))
            screen.blit(caption, caption_rect)
 
-
    else:
        # these drawings occur every loop of the iteration so that they remain on the screen throughout the game
 
-
        # background colour
        screen.fill((29,127,124))
-
 
        # draws dealer mat            
        screen.blit(dealer_mat, dealer_mat_rect)
        screen.blit(dealer_mat_label, dealer_mat_label_rect)
 
-
        # draws player mats
        for i in range(len(players)):
            draw_mat(players,i)
-
 
        # starts a new round by dealing 2 cards to each player
        if not cards_dealt:
@@ -243,15 +217,12 @@ while running:
            deal_initial_cards(players, dealer, deck)
            cards_dealt = True
 
-
        # draws buttons
        hit_bttn.draw(screen)
        stay_bttn.draw(screen)
 
-
        # displays the dealer's hand  
        illustrate_hand(dealer, 562, dealer_mat_rect.top + 30)
-
 
        # displays each players hand and hand total 
        for i in range(len(players)):
@@ -276,15 +247,12 @@ while running:
            next_round_rect = next_round_surf.get_frect(center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
            screen.blit(next_round_surf, next_round_rect)
 
-
        # Displays the number of rounbds
        round_surf = REG_FONT.render(f"Round #{rounds}", True, "White")
        round_rect = round_surf.get_frect(topleft = (SCREEN_WIDTH - 100, 20))
        screen.blit(round_surf, round_rect)
 
-
    pygame.display.flip()
    clock.tick(150)
-
 
 pygame.quit()
