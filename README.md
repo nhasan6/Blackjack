@@ -55,3 +55,9 @@ python -m Blackjack.main
 ---
 
 ## Screenshots
+![Screenshot 2025-04-21 at 8 16 05 PM](https://github.com/user-attachments/assets/6a386bff-c549-4733-932a-56aa2777bfb8)
+
+![Screenshot 2025-04-21 at 8 16 13 PM](https://github.com/user-attachments/assets/76ffff2c-3d31-42d3-8a2d-8b5bd83ec1a0)
+
+
+
