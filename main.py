@@ -146,6 +146,9 @@ while running:
         elif game_active:
 
             # handles player turns
+            if deck.get_length() == 0:
+                deck = Deck() # replenishes the deck once the draw pile is empty
+
             if turn_tracker < len(players):
                 # players can only make a move if their hand totals less than 21
                 if players[turn_tracker].count_hand() < 21:
