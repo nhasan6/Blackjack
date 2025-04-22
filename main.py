@@ -62,12 +62,12 @@ def illustrate_wins(player, x,y):
 def get_round_result(player):
    # determines the outcome of the round for an individual player and returns a text surface with the outcome
    if (player.is_blackjack() and dealer.is_blackjack()) or (player.is_bust() and dealer.is_bust()) or (player.count_hand() == dealer.count_hand()):
-       return RESULT_FONT.render("TIE", True, "Black")
+       return RESULT_FONT.render("TIE", True, (50, 14, 40))
    elif (player.is_blackjack() or dealer.is_bust()) or ((not player.is_bust() and (player.count_hand() > dealer.count_hand()))):
        player.record_win()
-       return RESULT_FONT.render("WIN", True, "Black")
+       return RESULT_FONT.render("WIN", True, (50, 14, 40))
    else:
-       return RESULT_FONT.render("LOSE", True, "Black")
+       return RESULT_FONT.render("LOSE", True, (50, 14, 40))
       
 def enroll_players():
    num_players = int(input("Please enter the number of players (1-3): "))
@@ -83,6 +83,7 @@ clock = pygame.time.Clock()
 
 # load fonts
 REG_FONT = pygame.font.Font(None, 20)
+MSG_FONT = pygame.font.Font(None, 40)
 FONT_PATH = os.path.join(BASE_DIR, "assets", "titlefont.ttf")
 TITLE_FONT = pygame.font.Font(FONT_PATH, 180)
 RESULT_FONT = pygame.font.Font(FONT_PATH, 70)
@@ -189,11 +190,11 @@ while running:
        # title screen
        if rounds == 0:
            screen.fill((29,127,124))
-           title = TITLE_FONT.render("BLACKJACK", True, "black")
+           title = TITLE_FONT.render("BLACKJACK", True, (50, 14, 40))
            title_rect = title.get_frect(center = (SCREEN_WIDTH/2,SCREEN_HEIGHT/2))
            screen.blit(title, title_rect)
 
-           caption = REG_FONT.render("Press SPACE to start", True, "black")
+           caption = MSG_FONT.render("Press SPACE to start", True, "black")
            caption_rect = caption.get_frect(center = (SCREEN_WIDTH/2,title_rect.bottom))
            screen.blit(caption, caption_rect)
 
@@ -243,13 +244,13 @@ while running:
                screen.blit(surf, rect)
 
            # prompt to continue
-           next_round_surf = REG_FONT.render("Press SPACE to continue to the next round. Click the red 'X' to exit.", True, "White")
+           next_round_surf = MSG_FONT.render("Press SPACE to continue to the next round. Click the red 'X' to exit.", True, "White")
            next_round_rect = next_round_surf.get_frect(center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
            screen.blit(next_round_surf, next_round_rect)
 
        # Displays the number of rounbds
-       round_surf = REG_FONT.render(f"Round #{rounds}", True, "White")
-       round_rect = round_surf.get_frect(topleft = (SCREEN_WIDTH - 100, 20))
+       round_surf = MSG_FONT.render(f"Round #{rounds}", True, "White")
+       round_rect = round_surf.get_frect(topright = (SCREEN_WIDTH - 20, 20))
        screen.blit(round_surf, round_rect)
 
    pygame.display.flip()
