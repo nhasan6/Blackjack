@@ -53,7 +53,8 @@ python -m Blackjack.main
 ---
 
 ## Screenshots
-![<Screenshot 2025-04-21 at 9.51.55 PM.png>]
-![<Screenshot 2025-04-21 at 9.53.28 PM.png>]
-![<Screenshot 2025-04-21 at 9.52.44 PM.png>] 
-![<Screenshot 2025-04-21 at 9.52.33 PM.png>]
+
+![Screenshot 2025-04-21 at 9 51 55 PM](https://github.com/user-attachments/assets/408c7854-fff4-4aa6-9b27-87acb24ee3d5)
+![Screenshot 2025-04-21 at 9 52 33 PM](https://github.com/user-attachments/assets/5408761d-1086-4ab9-b2d8-8a6e5251821f)
+![Screenshot 2025-04-21 at 9 52 44 PM](https://github.com/user-attachments/assets/81a39bbf-75c1-46cf-87d5-a81fdfc74655)
+![Screenshot 2025-04-21 at 9 53 28 PM](https://github.com/user-attachments/assets/4de20017-9a4b-44cd-9ec3-76dfbaef6fa2)
