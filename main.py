@@ -42,7 +42,7 @@ def illustrate_card(card, x, y):
    else: # if card is hidden
        card_surf = pygame.image.load(os.path.join(BASE_DIR, "assets", "img/back.png")).convert_alpha()
    card_surf = pygame.transform.scale(card_surf, (150,200)) # resize cards
-   card_rect = card_surf.get_frect(midtop = (x, y))
+   card_rect = card_surf.get_frect(topleft = (x, y))
    screen.blit(card_surf, card_rect)
 
 
@@ -131,14 +131,20 @@ dealer_mat_label_rect = dealer_mat_label.get_frect(midtop = (SCREEN_WIDTH/2, 40)
 def get_mat(index):
    player_mat = pygame.Surface((MAT_WIDTH,MAT_HEIGHT))
    player_mat.fill((207,118,74))
-   player_mat_rect = player_mat.get_frect(midtop = (SCREEN_WIDTH/(index + 2), 440))
+   gap = (SCREEN_WIDTH - len(players)* MAT_WIDTH) / (len(players) + 1)
+   top_left_x = gap * (index + 1) + (index * 175)
+   player_mat_rect = player_mat.get_frect(topleft = (top_left_x, 440))
    return [player_mat, player_mat_rect]
 
 
 def draw_mat(players, index):
-   screen.blit(get_mat(index)[0],get_mat(index)[1] )
+   screen.blit(get_mat(index)[0],get_mat(index)[1])
    player_mat_label = REG_FONT.render(f"{players[index].get_name()}", True, "Black")
-   player_mat_label_rect = player_mat_label.get_frect(midtop = (SCREEN_WIDTH/(index + 2), 450))
+
+   gap = (SCREEN_WIDTH - len(players)* MAT_WIDTH) / (len(players) + 1)
+   top_left_x = gap * (index + 1) + (index * 175)
+
+   player_mat_label_rect = player_mat_label.get_frect(midtop = (get_mat(index)[1].centerx, 450))
    screen.blit(player_mat_label, player_mat_label_rect)
 
 
@@ -245,23 +251,26 @@ while running:
 
 
        # displays the dealer's hand  
-       illustrate_hand(dealer, SCREEN_WIDTH/2, dealer_mat_rect.top + 30)
+       illustrate_hand(dealer, 562, dealer_mat_rect.top + 30)
 
 
        # displays each players hand and hand total 
        for i in range(len(players)):
-               illustrate_hand(players[i], SCREEN_WIDTH/(i + 2), get_mat(i)[1].top + 30)
-               illustrate_total(players[i], SCREEN_WIDTH/(i+ 2) + 58, get_mat(i)[1].top + 20)
-               illustrate_wins(players[i], SCREEN_WIDTH/(i + 2), get_mat(i)[1].bottom)
+               
+               gap = (SCREEN_WIDTH - len(players)* MAT_WIDTH) / (len(players) + 1)
+               top_left_x = gap * (i + 1) + (i * 175)
+
+               illustrate_hand(players[i], get_mat(i)[1].left + 10, get_mat(i)[1].top + 30)
+               illustrate_total(players[i], get_mat(i)[1].right - 20 , get_mat(i)[1].top + 20)
+               illustrate_wins(players[i], get_mat(i)[1].centerx, get_mat(i)[1].bottom)
       
        # if round is over, display the results
-       if turn_tracker > len(players):
+       if turn_tracker > len(players):       
            illustrate_total(dealer, SCREEN_WIDTH/2 + 58, dealer_mat_rect.top + 20) # displays dealers total, now that their card isn't hidden
           
            # displays each player's results
            for(surf, rect) in results:
                screen.blit(surf, rect)
-
 
            # prompt to continue
            next_round_surf = REG_FONT.render("Press SPACE to continue to the next round. Click the red 'X' to exit.", True, "White")
